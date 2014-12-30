@@ -156,7 +156,7 @@
     EKRecurrenceRule *rule = [[EKRecurrenceRule alloc] initRecurrenceWithFrequency:EKRecurrenceFrequencyWeekly interval:2 end:end];
     [event addRecurrenceRule:rule];
     NSLog(@"event: %@", event);
-    // TODO implement error handling
+    // TODO implementiere error handling
     NSError *error;
     [eventStore saveEvent:event span:EKSpanFutureEvents error:&error];
     NSLog(@"error: %@", error);
@@ -174,7 +174,7 @@
     
     NSError *error;
     [eventStore saveCalendar:calendar commit:YES error:&error];
-    // TODO implement error handling
+    // TODO implementiere error handling
     return calendar;
 }
 @end
