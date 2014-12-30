@@ -14,6 +14,8 @@
 		06755D431A52B84D007CF56F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06755D421A52B84D007CF56F /* Images.xcassets */; };
 		06755D461A52B84D007CF56F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06755D441A52B84D007CF56F /* LaunchScreen.xib */; };
 		06755D521A52B84D007CF56F /* TerminEinfuegenTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 06755D511A52B84D007CF56F /* TerminEinfuegenTests.m */; };
+		06755D5C1A52CBA4007CF56F /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06755D5B1A52CBA4007CF56F /* EventKit.framework */; };
+		06755D5E1A52CBAD007CF56F /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06755D5D1A52CBAD007CF56F /* EventKitUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,8 @@
 		06755D4B1A52B84D007CF56F /* TerminEinfuegenTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TerminEinfuegenTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		06755D501A52B84D007CF56F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		06755D511A52B84D007CF56F /* TerminEinfuegenTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TerminEinfuegenTests.m; sourceTree = "<group>"; };
+		06755D5B1A52CBA4007CF56F /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
+		06755D5D1A52CBAD007CF56F /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +51,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06755D5E1A52CBAD007CF56F /* EventKitUI.framework in Frameworks */,
+				06755D5C1A52CBA4007CF56F /* EventKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +69,8 @@
 		06755D291A52B84D007CF56F = {
 			isa = PBXGroup;
 			children = (
+				06755D5D1A52CBAD007CF56F /* EventKitUI.framework */,
+				06755D5B1A52CBA4007CF56F /* EventKit.framework */,
 				06755D341A52B84D007CF56F /* TerminEinfuegen */,
 				06755D4E1A52B84D007CF56F /* TerminEinfuegenTests */,
 				06755D331A52B84D007CF56F /* Products */,
@@ -348,8 +356,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = TerminEinfuegen/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -359,8 +369,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = TerminEinfuegen/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController
+- (IBAction)insertEvent:(id)sender;
+@property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 
 
 @end
