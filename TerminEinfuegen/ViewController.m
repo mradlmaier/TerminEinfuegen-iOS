@@ -18,12 +18,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.titelTextField.delegate = self;
+    [self hideKeyboardWhenBackgroundIsTapped];
     [self checkEventStoreAccessForEvents];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark - TEXTFIELD
+
+-(void)hideKeyboardWhenBackgroundIsTapped{
+    UITapGestureRecognizer *tgr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
+    [tgr setCancelsTouchesInView:NO];
+    [self.view addGestureRecognizer:tgr];
+}
+
+-(void)hideKeyboard{
+    [self.view endEditing:YES];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField setUserInteractionEnabled:YES];
+    [textField resignFirstResponder];
+    return YES;
 }
 
 #pragma mark - ACCESS FOR EVENTS
@@ -86,21 +108,29 @@
 }
 
 - (IBAction)insertEvent:(id)sender {
+    if ([self.titelTextField.text isEqualToString:@("")]) {
+        // kein Vorname, zeige Alert, dass Vorname eingegeben werden muss, und abbrechen
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Titel fehlt!"
+                                                          message:@"Bitte Titel eingeben."
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        [message show];
+        return;
+    }
     // initialisiere EventStore
     EKEventStore *eventStore = [[EKEventStore alloc] init];
-    // hol den default calendar; man könnte stattdessen andere Kalendaer holen oder eigenen erstellen...
-    EKCalendar *defaultCalendar = [EKCalendar calendarForEntityType:EKEntityTypeEvent eventStore:eventStore];
-    EKSource *source = [[eventStore defaultCalendarForNewEvents] source];
-    [defaultCalendar setSource:source];
+    // eigenen Kalendar für Events kreieren, weil so sichergestellt ist das der Kalender schreibbar ist
+    EKCalendar *calendar = [self createLocalCalendarForMyEventsWithTitle:@"Mein Kalender"];
     // erstelle event
     EKEvent *event  = [EKEvent eventWithEventStore:eventStore];
     // setze den Kalender für diese Event
-    [event setCalendar:defaultCalendar];
+    [event setCalendar:calendar];
     // setze Beginn und Ende
     event.startDate = self.datePicker.date;
     event.endDate = [NSDate dateWithTimeInterval:60*60 sinceDate:self.datePicker.date];
     // setze Titel und Beschreibung
-    event.title = @"Mein Termin";
+    event.title = self.titelTextField.text;
     [event setNotes:@"Lore ipsum..."];
     // setze Alarm
     [event addAlarm:[EKAlarm alarmWithRelativeOffset:60 * -60.0 * 24]];
@@ -110,9 +140,25 @@
     EKRecurrenceRule *rule = [[EKRecurrenceRule alloc] initRecurrenceWithFrequency:EKRecurrenceFrequencyWeekly interval:2 end:end];
     [event addRecurrenceRule:rule];
     NSLog(@"event: %@", event);
-    // speichere event, man sollte ordenliches error handling implementieren...
+    // TODO implement error handling
     NSError *error;
     [eventStore saveEvent:event span:EKSpanFutureEvents error:&error];
     NSLog(@"error: %@", error);
+}
+
+
+
+-(EKCalendar *)createLocalCalendarForMyEventsWithTitle:(NSString *)title{
+    EKEventStore *eventStore = [[EKEventStore alloc] init];
+    
+    EKSource *theSource = [[eventStore defaultCalendarForNewEvents] source];
+    EKCalendar *calendar = [EKCalendar calendarForEntityType:EKEntityTypeEvent eventStore:eventStore];
+    calendar.title = title;
+    calendar.source = theSource;
+    
+    NSError *error;
+    [eventStore saveCalendar:calendar commit:YES error:&error];
+    // TODO implement error handling
+    return calendar;
 }
 @end
