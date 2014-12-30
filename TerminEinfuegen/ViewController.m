@@ -5,9 +5,17 @@
 //  Created by Michael Radlmaier on 30/12/14.
 //  Copyright (c) 2014 Michael Radlmaier. All rights reserved.
 //
+// Dies demonstriert wie ein Event in iOS 7 oder höher in eine Kalender geschrieben werden kann.
+// ZU beachten:
+// 1. Testen dass wir Zugriff auf den Kalender haben, wenn nicht, ist der "Event einfügen"-Button disabled
+//    (Wenn der Benutzer in den Einstellungen nachträglich den Zugriff erlaubt/verbietet wird die automatisch neugestartet.
+//    Deshalb ist immer sichergestellt, dass die App aus dem Hintergrund kommt, wenn der Benutzer diese Einstellungen)
+// 2. Wir kreieren einen eigenen Kalender für diese App, damit ist sichergestellt, dass
+//    a) der Kalender schreibbar ist.
+//    b) wir nicht die Kalender des Benutzer durcheinander bringen (Dies weicht von den meisten Code-Samples im Internet ab, die in diesem
+//       Punkt inkorrekt vorgehen, in dem das sie alle Kalender wahllos nach einem schreibbaren durchsuchen!).
 
 #import "ViewController.h"
-#import <EventKit/EventKit.h>
 
 @interface ViewController ()
 
@@ -20,7 +28,9 @@
     // Do any additional setup after loading the view, typically from a nib.
     self.titelTextField.delegate = self;
     [self hideKeyboardWhenBackgroundIsTapped];
+    // Teste, ob wir Zugriff auf die Kalender haben
     [self checkEventStoreAccessForEvents];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,16 +67,18 @@
     
     switch (status)
     {
-            // Update our UI if the user has granted access to their Calendar
-        case EKAuthorizationStatusAuthorized: [self accessGrantedForEvent];
+        case EKAuthorizationStatusAuthorized:
+            // UI aktualisieren und Kalender kreieren, falls wir Zugriff erhalten haben
+            [self accessGrantedForEvent];
             break;
-            // Prompt the user for access to Calendar if there is no definitive answer
-        case EKAuthorizationStatusNotDetermined: [self requestEventAccess];
+        case EKAuthorizationStatusNotDetermined:
+            // Benutzer fragen, da Status ungeklärt
+            [self requestEventAccess];
             break;
-            // Display a message if the user has denied or restricted access to Calendar
         case EKAuthorizationStatusDenied:
         case EKAuthorizationStatusRestricted:
         {
+            // Benutzer informieren, dass wir Zugriff auf Kalender brauchen
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Privatsphäre Warnung" message:@"Erlaubnis für Ereignisse nicht erhalten. Bitte erteilen Sie Zugriffserlaubnis in den Systemeinstellungen Ihres Gerätes: --> Einstellungen --> Datenschutz --> Ereignisse --> TerminEinfügen."
                                                            delegate:nil
                                                   cancelButtonTitle:@"OK"
@@ -90,9 +102,9 @@
          if (granted)
          {
              ViewController * __weak weakSelf = self;
-             // Let's ensure that our code will be executed from the main queue
+             // Code im UIThread/Mainthread exekutieren
              dispatch_async(dispatch_get_main_queue(), ^{
-                 // The user has granted access to their Calendar
+                 // Zugriff erlaubt
                  [weakSelf accessGrantedForEvent];
              });
          }
@@ -100,16 +112,21 @@
 }
 
 
-// Diese Methode wird aufgerufen wenn der Benutzer Zugriff auf die Kalendar erlaubt
+// Diese Methode wird aufgerufen wenn der Benutzer Zugriff erlaubt
 -(void)accessGrantedForEvent
 {
     NSLog(@"Zugriff erlaubt...");
+    // eigenen Kalender erstellen, was garantiert, dass wir Schreibzugriff haben,
+    // Außerdem hat dann unsere App Ihren eigenen Kalender, und wir bringen nicht die Kalender
+    // des Benutzers durcheinander
+    self.kalender = [self createLocalCalendarForMyEventsWithTitle:@"Mein Kalender"];
+    [self.createEventButton setEnabled:YES];
     
 }
 
 - (IBAction)insertEvent:(id)sender {
     if ([self.titelTextField.text isEqualToString:@("")]) {
-        // kein Vorname, zeige Alert, dass Vorname eingegeben werden muss, und abbrechen
+        // kein Titel, zeige Alert, dass Titel eingegeben werden muss, und abbrechen
         UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Titel fehlt!"
                                                           message:@"Bitte Titel eingeben."
                                                          delegate:nil
@@ -121,11 +138,10 @@
     // initialisiere EventStore
     EKEventStore *eventStore = [[EKEventStore alloc] init];
     // eigenen Kalendar für Events kreieren, weil so sichergestellt ist das der Kalender schreibbar ist
-    EKCalendar *calendar = [self createLocalCalendarForMyEventsWithTitle:@"Mein Kalender"];
     // erstelle event
     EKEvent *event  = [EKEvent eventWithEventStore:eventStore];
     // setze den Kalender für diese Event
-    [event setCalendar:calendar];
+    [event setCalendar:self.kalender];
     // setze Beginn und Ende
     event.startDate = self.datePicker.date;
     event.endDate = [NSDate dateWithTimeInterval:60*60 sinceDate:self.datePicker.date];

@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <EventKit/EventKit.h>
 
 @interface ViewController : UIViewController <UITextFieldDelegate>
 - (IBAction)insertEvent:(id)sender;
 @property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (strong, nonatomic) IBOutlet UITextField *titelTextField;
-
+@property (strong, nonatomic) EKCalendar *kalender;
+@property (strong, nonatomic) IBOutlet UIButton *createEventButton;
 
 @end
 
