@@ -172,12 +172,14 @@
     NSError *error;
     [eventStore saveEvent:event span:EKSpanFutureEvents error:&error];
     NSLog(@"error: %@", error);
-    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Fehler"
-                                                      message:error.localizedDescription
-                                                     delegate:nil
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-    [message show];
+    if (error) {
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Fehler"
+                                                          message:error.localizedDescription
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        [message show];
+    }
 }
 
 
@@ -260,6 +262,9 @@
 
 -(IBAction)cancel:(id)sender{
     NSLog(@"cancel");
+    // EKCalendarChooser schließen
+    [[self navigationController] dismissViewControllerAnimated:YES completion:nil];
+    self.selectedCalendar = nil;
 }
 
 -(IBAction)done:(id)sender{
@@ -300,12 +305,14 @@
     NSError *error;
     [eventStore saveEvent:event span:EKSpanFutureEvents error:&error];
     NSLog(@"error: %@", error);
-    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Fehler"
-                                                      message:error.localizedDescription
-                                                     delegate:nil
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-    [message show];
+    if (error) {
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Fehler"
+                                                          message:error.localizedDescription
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        [message show];
+    }
     // EKCalendarChooser schließen
     [[self navigationController] dismissViewControllerAnimated:YES completion:nil];
     self.selectedCalendar = nil;
