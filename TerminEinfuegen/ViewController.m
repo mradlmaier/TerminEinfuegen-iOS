@@ -58,7 +58,7 @@
     return YES;
 }
 
-#pragma mark - ACCESS FOR EVENTS
+#pragma mark - ACCESS PERMISSION FOR EVENTS
 
 // teste Authorisation Status
 -(void)checkEventStoreAccessForEvents
