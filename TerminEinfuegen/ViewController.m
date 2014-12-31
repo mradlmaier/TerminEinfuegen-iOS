@@ -231,13 +231,26 @@
 }
 
 - (IBAction)chooseCalendar:(id)sender {
-    // this präsentiert den EKCalendarChooser modal, so dass der Benutzer einen schreibbaren Kalender wählen kann
+    if ([self.titelTextField.text isEqualToString:@("")]) {
+        // kein Titel, zeige Alert, dass Titel eingegeben werden muss, und abbrechen
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Titel fehlt!"
+                                                          message:@"Bitte Titel eingeben."
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        [message show];
+        return;
+    }
+    
+    // dies präsentiert den EKCalendarChooser modal, so dass der Benutzer einen schreibbaren Kalender wählen kann
     EKEventStore *store = [[EKEventStore alloc] init];
     EKCalendarChooser *chooser = [[EKCalendarChooser alloc] initWithSelectionStyle:EKCalendarChooserSelectionStyleSingle displayStyle:EKCalendarChooserDisplayWritableCalendarsOnly entityType:EKEntityTypeEvent eventStore:store];
     chooser.delegate = self;
     
+    // einbetten in NavigationController
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chooser];
     
+    // BarButtons einfügen
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]
                                    initWithTitle:@"Abbrechen"
                                    style:UIBarButtonItemStylePlain
@@ -252,6 +265,7 @@
                                      action:@selector(done:)];
     chooser.navigationItem.rightBarButtonItem = doneButton;
     
+    // modal präsentieren
     [[self navigationController] presentViewController:navController animated:YES completion:nil];
 }
 
@@ -322,7 +336,7 @@
     event.startDate = self.datePicker.date;
     event.endDate = [NSDate dateWithTimeInterval:60*60 sinceDate:self.datePicker.date];
     // setze Titel und Beschreibung
-    event.title = self.titelTextField.text;
+    event.title = @"Irgendein Termin";
     [event setNotes:@"Lore ipsum..."];
     // setze Alarm
     [event addAlarm:[EKAlarm alarmWithRelativeOffset:60 * -60.0 * 24]];
