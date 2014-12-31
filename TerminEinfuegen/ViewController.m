@@ -182,7 +182,9 @@
                                                 cancelButtonTitle:@"OK"
                                                 otherButtonTitles:nil];
         [message show];
+        return;
     }
+    self.titelTextField.text = @"";
 }
 
 
@@ -324,10 +326,15 @@
                                                 cancelButtonTitle:@"OK"
                                                 otherButtonTitles:nil];
         [message show];
+        // EKCalendarChooser schließen
+        [[self navigationController] dismissViewControllerAnimated:YES completion:nil];
+        self.selectedCalendar = nil;
+        return;
     }
     // EKCalendarChooser schließen
     [[self navigationController] dismissViewControllerAnimated:YES completion:nil];
     self.selectedCalendar = nil;
+    self.titelTextField.text = @"";
 }
 
 #pragma mark - EKEventEditViewController - Variante 3
