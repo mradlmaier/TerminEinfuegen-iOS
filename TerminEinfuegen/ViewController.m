@@ -231,6 +231,9 @@
 - (IBAction)chooseCalendar:(id)sender {
     EKEventStore *store = [[EKEventStore alloc] init];
     EKCalendarChooser *chooser = [[EKCalendarChooser alloc] initWithSelectionStyle:EKCalendarChooserSelectionStyleSingle displayStyle:EKCalendarChooserDisplayWritableCalendarsOnly entityType:EKEntityTypeEvent eventStore:store];
-    [self presentViewController:chooser animated:YES completion:nil];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chooser];
+    //[[self navigationController] presentModalViewController:navController animated:YES];
+    //[self presentModalViewController:navigationController animated:YES completion:nil];
+    [[self navigationController] presentViewController:navController animated:YES completion:nil];
 }
 @end
