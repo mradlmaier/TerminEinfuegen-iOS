@@ -6,7 +6,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Termin einfügen-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
@@ -18,37 +18,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="15" translatesAutoresizingMaskIntoConstraints="NO" id="ife-Bu-hKV">
-                                <rect key="frame" x="0.0" y="64" width="320" height="162"/>
+                            <datePicker contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="15" translatesAutoresizingMaskIntoConstraints="NO" id="ife-Bu-hKV">
+                                <rect key="frame" x="0.0" y="99" width="320" height="162"/>
                                 <date key="date" timeIntervalSinceReferenceDate="441634714.73995">
                                     <!--2014-12-30 12:18:34 +0000-->
                                 </date>
                             </datePicker>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="(Titel, erforderlich)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cpq-RR-khN">
-                                <rect key="frame" x="16" y="234" width="288" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="(Titel, erforderlich)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cpq-RR-khN">
+                                <rect key="frame" x="16" y="269" width="288" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5K2-YD-O9A">
-                                <rect key="frame" x="7" y="310" width="306" height="30"/>
-                                <state key="normal" title="Termin in selbstgewählten Kalender einfügen">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="chooseCalendar:" destination="BYZ-38-t0r" eventType="touchUpInside" id="k1a-r1-0I6"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VaZ-8a-96O">
-                                <rect key="frame" x="57" y="398" width="207" height="30"/>
-                                <state key="normal" title="Termin einfügen mittels iOS UI">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="createEventWithiOSUI:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ulu-k3-ee3"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fEZ-si-77D">
-                                <rect key="frame" x="65" y="269" width="190" height="30"/>
+                                <rect key="frame" x="65" y="307" width="190" height="30"/>
                                 <state key="normal" title="Termin in Kalender einfügen">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -56,23 +38,78 @@
                                     <action selector="insertEvent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2A1-Uw-uhA"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5K2-YD-O9A">
+                                <rect key="frame" x="7" y="374" width="306" height="30"/>
+                                <state key="normal" title="Termin in selbstgewählten Kalender einfügen">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="chooseCalendar:" destination="BYZ-38-t0r" eventType="touchUpInside" id="k1a-r1-0I6"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Variante 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j4r-5H-BiK">
+                                <rect key="frame" x="16" y="72" width="288" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="47I-NX-8SF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Variante 2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mqg-Fd-lyw">
+                                <rect key="frame" x="16" y="345" width="288" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="RQY-m3-jiP"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VaZ-8a-96O">
+                                <rect key="frame" x="57" y="434" width="207" height="30"/>
+                                <state key="normal" title="Termin einfügen mittels iOS UI">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="createEventWithiOSUI:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ulu-k3-ee3"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Variante 3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNt-fE-ZBJ">
+                                <rect key="frame" x="16" y="412" width="288" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="6Qz-X7-dbU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="fEZ-si-77D" firstAttribute="centerX" secondItem="cpq-RR-khN" secondAttribute="centerX" id="BW3-M6-7bQ"/>
-                            <constraint firstItem="fEZ-si-77D" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Cus-fC-dHv"/>
-                            <constraint firstItem="5K2-YD-O9A" firstAttribute="top" secondItem="fEZ-si-77D" secondAttribute="bottom" constant="11" id="OAA-MG-pop"/>
-                            <constraint firstItem="cpq-RR-khN" firstAttribute="top" secondItem="ife-Bu-hKV" secondAttribute="bottom" constant="8" symbolic="YES" id="Vhz-u5-JfU"/>
-                            <constraint firstItem="ife-Bu-hKV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Xnv-GT-Gw3"/>
-                            <constraint firstItem="5K2-YD-O9A" firstAttribute="centerX" secondItem="fEZ-si-77D" secondAttribute="centerX" id="a5j-Ku-dW1"/>
-                            <constraint firstItem="VaZ-8a-96O" firstAttribute="top" secondItem="5K2-YD-O9A" secondAttribute="bottom" constant="58" id="aI5-qm-VwJ"/>
-                            <constraint firstItem="cpq-RR-khN" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="azb-kY-ghw"/>
-                            <constraint firstItem="ife-Bu-hKV" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="dON-Su-v5w"/>
-                            <constraint firstItem="ife-Bu-hKV" firstAttribute="centerX" secondItem="cpq-RR-khN" secondAttribute="centerX" id="zcg-Zf-Gf2"/>
-                            <constraint firstItem="5K2-YD-O9A" firstAttribute="centerX" secondItem="VaZ-8a-96O" secondAttribute="centerX" id="zlU-8o-XpQ"/>
+                            <constraint firstItem="ife-Bu-hKV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="0BY-TW-Ov5"/>
+                            <constraint firstItem="cpq-RR-khN" firstAttribute="top" secondItem="ife-Bu-hKV" secondAttribute="bottom" constant="8" symbolic="YES" id="8al-v3-c8X"/>
+                            <constraint firstItem="mqg-Fd-lyw" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="DNQ-Nb-KHU"/>
+                            <constraint firstItem="hNt-fE-ZBJ" firstAttribute="leading" secondItem="mqg-Fd-lyw" secondAttribute="leading" id="EqK-Na-CjY"/>
+                            <constraint firstItem="5K2-YD-O9A" firstAttribute="centerX" secondItem="mqg-Fd-lyw" secondAttribute="centerX" id="Fmj-MI-P7p"/>
+                            <constraint firstItem="cpq-RR-khN" firstAttribute="trailing" secondItem="j4r-5H-BiK" secondAttribute="trailing" id="Gqv-Vg-tVo"/>
+                            <constraint firstItem="fEZ-si-77D" firstAttribute="centerX" secondItem="mqg-Fd-lyw" secondAttribute="centerX" id="Ksb-qO-5Ae"/>
+                            <constraint firstItem="hNt-fE-ZBJ" firstAttribute="top" secondItem="5K2-YD-O9A" secondAttribute="bottom" constant="8" symbolic="YES" id="L9c-wp-C9w"/>
+                            <constraint firstItem="mqg-Fd-lyw" firstAttribute="top" secondItem="fEZ-si-77D" secondAttribute="bottom" constant="8" symbolic="YES" id="LC1-Cz-MY3"/>
+                            <constraint firstItem="cpq-RR-khN" firstAttribute="leading" secondItem="j4r-5H-BiK" secondAttribute="leading" id="Lq9-1X-8i0"/>
+                            <constraint firstItem="fEZ-si-77D" firstAttribute="top" secondItem="cpq-RR-khN" secondAttribute="bottom" constant="8" symbolic="YES" id="VxW-70-QTU"/>
+                            <constraint firstItem="hNt-fE-ZBJ" firstAttribute="centerX" secondItem="VaZ-8a-96O" secondAttribute="centerX" id="XYU-pQ-tUv"/>
+                            <constraint firstItem="ife-Bu-hKV" firstAttribute="centerX" secondItem="j4r-5H-BiK" secondAttribute="centerX" id="XZP-t1-yef"/>
+                            <constraint firstItem="ife-Bu-hKV" firstAttribute="top" secondItem="j4r-5H-BiK" secondAttribute="bottom" constant="8" symbolic="YES" id="c8K-8J-wBX"/>
+                            <constraint firstItem="mqg-Fd-lyw" firstAttribute="trailing" secondItem="hNt-fE-ZBJ" secondAttribute="trailing" id="e8A-xg-5Jo"/>
+                            <constraint firstItem="cpq-RR-khN" firstAttribute="trailing" secondItem="mqg-Fd-lyw" secondAttribute="trailing" id="i0G-b1-RrB"/>
+                            <constraint firstItem="VaZ-8a-96O" firstAttribute="top" secondItem="hNt-fE-ZBJ" secondAttribute="bottom" constant="1" id="jDV-Ts-eUL"/>
+                            <constraint firstItem="cpq-RR-khN" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="khk-e6-AKO"/>
+                            <constraint firstItem="mqg-Fd-lyw" firstAttribute="leading" secondItem="cpq-RR-khN" secondAttribute="leading" id="rje-aB-hg6"/>
+                            <constraint firstItem="5K2-YD-O9A" firstAttribute="top" secondItem="mqg-Fd-lyw" secondAttribute="bottom" constant="8" symbolic="YES" id="uUo-B9-GWu"/>
+                            <constraint firstItem="j4r-5H-BiK" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="xsY-37-Crw"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="IN4-E9-8U3"/>
+                    <navigationItem key="navigationItem" title="Termin einfügen" id="IN4-E9-8U3"/>
                     <connections>
                         <outlet property="createEventAndChooseCalButton" destination="5K2-YD-O9A" id="WF4-Uc-jhm"/>
                         <outlet property="createEventButton" destination="fEZ-si-77D" id="KEf-Uo-zDV"/>
