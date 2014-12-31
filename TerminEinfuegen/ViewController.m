@@ -125,6 +125,7 @@
     
 }
 
+#pragma mark - Variante 1 - Ohne iOS UI
 - (IBAction)insertEvent:(id)sender {
     if ([self.titelTextField.text isEqualToString:@("")]) {
         // kein Titel, zeige Alert, dass Titel eingegeben werden muss, und abbrechen
@@ -214,7 +215,8 @@
     }
     return nil;
 }
-#pragma mark - EKCalendarChooserDelegate
+
+#pragma mark - EKCalendarChooserDelegate - Variante 2
 - (void)calendarChooserSelectionDidChange:(EKCalendarChooser *)calendarChooser{
     NSLog(@"calendarChooserSelectionDidChange: %@", calendarChooser.selectedCalendars);
     // Calendar wurde gewählt, speichere für später
@@ -229,6 +231,7 @@
 - (void)calendarChooserDidCancel:(EKCalendarChooser *)calendarChooser{
     NSLog(@"calendarChooserDidCancel: %@", calendarChooser.selectedCalendars);
 }
+
 
 - (IBAction)chooseCalendar:(id)sender {
     if ([self.titelTextField.text isEqualToString:@("")]) {
@@ -327,6 +330,7 @@
     self.selectedCalendar = nil;
 }
 
+#pragma mark - EKEventEditViewController - Variante 3
 - (IBAction)createEventWithiOSUI:(id)sender {
     // Das ist die einfachste Möglichkeit, mittels EKEventEditViewController, und deren Delegates
     //
