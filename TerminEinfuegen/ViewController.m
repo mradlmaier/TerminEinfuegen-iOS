@@ -315,25 +315,53 @@
 
 - (IBAction)createEventWithiOSUI:(id)sender {
     // Das ist die einfachste Möglichkeit, mittels EKEventEditViewController, und deren Delegates
+    //
     EKEventStore *eventStore = [[EKEventStore alloc] init];
     EKEvent *event  = [EKEvent eventWithEventStore:eventStore];
+    // wir können einige Details vor-ausfüllen
+    event.startDate = self.datePicker.date;
+    event.endDate = [NSDate dateWithTimeInterval:60*60 sinceDate:self.datePicker.date];
+    // setze Titel und Beschreibung
+    event.title = self.titelTextField.text;
+    [event setNotes:@"Lore ipsum..."];
+    // setze Alarm
+    [event addAlarm:[EKAlarm alarmWithRelativeOffset:60 * -60.0 * 24]];
+    [event addAlarm:[EKAlarm alarmWithRelativeOffset:60 * -15.0]];
+    // setze Wiederholung
+    EKRecurrenceEnd *end = [EKRecurrenceEnd recurrenceEndWithEndDate:[NSDate dateWithTimeInterval:60*60*24*365 sinceDate:self.datePicker.date]];
+    EKRecurrenceRule *rule = [[EKRecurrenceRule alloc] initRecurrenceWithFrequency:EKRecurrenceFrequencyWeekly interval:2 end:end];
+    [event addRecurrenceRule:rule];
     
-    
+    // initialisiere EKEventEditViewController
     EKEventEditViewController *addController = [[EKEventEditViewController alloc] initWithNibName:nil bundle:nil];
-    
-    
-    // set the addController's event store to the current event store.
     addController.eventStore = eventStore;
-    addController.event=event;
+    addController.event = event;
     
-    // present EventsAddViewController as a modal view controller
-    [self presentModalViewController:addController animated:YES];
     
+    
+    [self presentViewController:addController animated:YES completion:nil];
     addController.editViewDelegate = self;
 }
 
 #pragma mark - EKEventEditViewDelegate
 - (void)eventEditViewController:(EKEventEditViewController *)controller didCompleteWithAction:(EKEventEditViewAction)action{
-    
+    ViewController * __weak weakSelf = self;
+    // Dismiss the modal view controller
+    [self dismissViewControllerAnimated:YES completion:^
+     {
+         if (action != EKEventEditViewActionCanceled)
+         {
+             // das Event wurde schon gespeichert, wir können aber irgendetwas tun mit dem Event, falls nötig
+             EKEvent *event = controller.event;
+             NSLog(@"event: %@", event);
+             NSLog(@"eventIdentifier: %@", event.eventIdentifier);
+             
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 // aktualisiere UI
+             });
+         } else {
+            // mach was, falls der Benutzer die Erstellung des Termins abgebrochen hat
+         }
+     }];
 }
 @end
