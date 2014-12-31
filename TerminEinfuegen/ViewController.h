@@ -18,5 +18,6 @@
 @property (strong, nonatomic) EKCalendar *selectedCalendar;
 - (IBAction)chooseCalendar:(id)sender;
 @property (strong, nonatomic) UINavigationController *chooserNavController;
+@property (strong, nonatomic) IBOutlet UIButton *createEventAndChooseCalButton;
 @end
 

@@ -120,6 +120,7 @@
     // Außerdem hat dann unsere App Ihren eigenen Kalender, und wir bringen nicht die Kalender
     // des Benutzers durcheinander
     [self.createEventButton setEnabled:YES];
+    [self.createEventAndChooseCalButton setEnabled:YES];
     
 }
 
