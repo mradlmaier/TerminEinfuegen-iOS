@@ -119,7 +119,6 @@
     // eigenen Kalender erstellen, was garantiert, dass wir Schreibzugriff haben,
     // Außerdem hat dann unsere App Ihren eigenen Kalender, und wir bringen nicht die Kalender
     // des Benutzers durcheinander
-    self.kalender = [self createLocalCalendarForMyEventsWithTitle:@"Mein Kalender"];
     [self.createEventButton setEnabled:YES];
     
 }
@@ -137,11 +136,24 @@
     }
     // initialisiere EventStore
     EKEventStore *eventStore = [[EKEventStore alloc] init];
-    // eigenen Kalendar für Events kreieren, weil so sichergestellt ist das der Kalender schreibbar ist
-    // erstelle event
+    // initialisiere event
     EKEvent *event  = [EKEvent eventWithEventStore:eventStore];
+    // kreierten Kalender suchen oder eigenen Kalendar für Events kreieren, weil so sichergestellt ist das der Kalender schreibbar ist
+    EKCalendar *kalender = [self getCalendarForEventsWithTitle:@"Mein Kalender"];
+    if(!kalender){
+        kalender = [self createLocalCalendarForMyEventsWithTitle:@"Mein Kalender"];
+    }
+    if(!kalender){
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Kein Kalender"
+                                                          message:@"Kein Kalender konnte gefunden noch kreiert werden."
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        [message show];
+        return;
+    }
     // setze den Kalender für diese Event
-    [event setCalendar:self.kalender];
+    [event setCalendar:kalender];
     // setze Beginn und Ende
     event.startDate = self.datePicker.date;
     event.endDate = [NSDate dateWithTimeInterval:60*60 sinceDate:self.datePicker.date];
@@ -160,6 +172,12 @@
     NSError *error;
     [eventStore saveEvent:event span:EKSpanFutureEvents error:&error];
     NSLog(@"error: %@", error);
+    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Fehler"
+                                                      message:error.localizedDescription
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+    [message show];
 }
 
 
@@ -176,5 +194,43 @@
     [eventStore saveCalendar:calendar commit:YES error:&error];
     // TODO implementiere error handling
     return calendar;
+}
+
+-(EKCalendar *)getCalendarForEventsWithTitle:(NSString *)title{
+    // es wäre schön wenn wir den Kalender an einem eindeutigerem Attribut suchen könnten als den Titel
+    // (den der Benutzer allerdings ändern könnte), aber die Property calendarIdentifier überlebt einen Sync nicht...
+    EKEventStore *eventStore = [[EKEventStore alloc] init];
+    NSArray *calendars = [eventStore calendarsForEntityType:EKEntityTypeEvent];
+    for (EKCalendar* cal in calendars){
+        if ([cal.title isEqualToString:title]) {
+            if(cal.allowsContentModifications){
+                return cal;
+            }
+        }
+    }
+    return nil;
+}
+
+-(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([[segue identifier] isEqualToString:@"show_chooser"]) {
+        EKCalendarChooser *chooser = (EKCalendarChooser *)[segue destinationViewController];
+        chooser.delegate = self;
+    }
+}
+
+#pragma mark - EKCalendarChooserDelegate
+- (void)calendarChooserSelectionDidChange:(EKCalendarChooser *)calendarChooser{
+}
+
+- (void)calendarChooserDidFinish:(EKCalendarChooser *)calendarChooser{
+}
+
+- (void)calendarChooserDidCancel:(EKCalendarChooser *)calendarChooser{
+}
+
+- (IBAction)chooseCalendar:(id)sender {
+    EKEventStore *store = [[EKEventStore alloc] init];
+    EKCalendarChooser *chooser = [[EKCalendarChooser alloc] initWithSelectionStyle:EKCalendarChooserSelectionStyleSingle displayStyle:EKCalendarChooserDisplayWritableCalendarsOnly entityType:EKEntityTypeEvent eventStore:store];
+    [self presentViewController:chooser animated:YES completion:nil];
 }
 @end

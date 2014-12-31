@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="xDW-M4-aRr">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
@@ -18,18 +18,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <datePicker contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="15" translatesAutoresizingMaskIntoConstraints="NO" id="ife-Bu-hKV">
-                                <rect key="frame" x="0.0" y="20" width="320" height="162"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="162"/>
                                 <date key="date" timeIntervalSinceReferenceDate="441634714.73995">
                                     <!--2014-12-30 12:18:34 +0000-->
                                 </date>
                             </datePicker>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="(Titel, erforderlich)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cpq-RR-khN">
-                                <rect key="frame" x="16" y="190" width="288" height="30"/>
+                                <rect key="frame" x="16" y="234" width="288" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fEZ-si-77D">
-                                <rect key="frame" x="63" y="228" width="184" height="30"/>
+                                <rect key="frame" x="68" y="272" width="184" height="30"/>
                                 <state key="normal" title="Event in Kalender einfügen">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -37,9 +37,19 @@
                                     <action selector="insertEvent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="2A1-Uw-uhA"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5K2-YD-O9A">
+                                <rect key="frame" x="85" y="310" width="150" height="30"/>
+                                <state key="normal" title="Öffne Kalender Picker">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="chooseCalendar:" destination="BYZ-38-t0r" eventType="touchUpInside" id="k1a-r1-0I6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" id="IN4-E9-8U3"/>
                     <connections>
                         <outlet property="createEventButton" destination="fEZ-si-77D" id="KEf-Uo-zDV"/>
                         <outlet property="datePicker" destination="ife-Bu-hKV" id="V2t-ea-2i7"/>
@@ -47,6 +57,43 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="652" y="241"/>
+        </scene>
+        <!--Calendar Chooser-->
+        <scene sceneID="23u-Ti-J6X">
+            <objects>
+                <viewController id="rT1-JK-cWm" customClass="EKCalendarChooser" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="QgE-9n-1Fi"/>
+                        <viewControllerLayoutGuide type="bottom" id="Bor-at-FMn"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="W0m-zd-KVY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="xSb-Rw-2DG"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dqJ-YC-9lh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1231" y="241"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="hgh-uv-Odn">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xDW-M4-aRr" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="vMb-vD-iLO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="pZG-YU-rTT"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="thw-LX-Pzv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="120" y="241"/>
         </scene>

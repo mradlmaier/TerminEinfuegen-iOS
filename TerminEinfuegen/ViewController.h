@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import <EventKit/EventKit.h>
+@import EventKitUI;
 
-@interface ViewController : UIViewController <UITextFieldDelegate>
+@interface ViewController : UIViewController <UITextFieldDelegate, EKCalendarChooserDelegate>
 - (IBAction)insertEvent:(id)sender;
 @property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (strong, nonatomic) IBOutlet UITextField *titelTextField;
-@property (strong, nonatomic) EKCalendar *kalender;
 @property (strong, nonatomic) IBOutlet UIButton *createEventButton;
-
+- (IBAction)chooseCalendar:(id)sender;
 @end
 
