@@ -15,6 +15,8 @@
 @property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (strong, nonatomic) IBOutlet UITextField *titelTextField;
 @property (strong, nonatomic) IBOutlet UIButton *createEventButton;
+@property (strong, nonatomic) EKCalendar *selectedCalendar;
 - (IBAction)chooseCalendar:(id)sender;
+@property (strong, nonatomic) UINavigationController *chooserNavController;
 @end
 

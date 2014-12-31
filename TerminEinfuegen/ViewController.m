@@ -220,20 +220,94 @@
 
 #pragma mark - EKCalendarChooserDelegate
 - (void)calendarChooserSelectionDidChange:(EKCalendarChooser *)calendarChooser{
+    NSLog(@"calendarChooserSelectionDidChange: %@", calendarChooser.selectedCalendars);
+    // store calendar for later use
+    NSArray *calendars = [calendarChooser.selectedCalendars allObjects];
+    self.selectedCalendar = [calendars firstObject];
 }
 
 - (void)calendarChooserDidFinish:(EKCalendarChooser *)calendarChooser{
+    NSLog(@"calendarChooserDidFinish: %@", calendarChooser.selectedCalendars);
 }
 
 - (void)calendarChooserDidCancel:(EKCalendarChooser *)calendarChooser{
+    NSLog(@"calendarChooserDidCancel: %@", calendarChooser.selectedCalendars);
 }
 
 - (IBAction)chooseCalendar:(id)sender {
     EKEventStore *store = [[EKEventStore alloc] init];
     EKCalendarChooser *chooser = [[EKCalendarChooser alloc] initWithSelectionStyle:EKCalendarChooserSelectionStyleSingle displayStyle:EKCalendarChooserDisplayWritableCalendarsOnly entityType:EKEntityTypeEvent eventStore:store];
+    chooser.delegate = self;
+    
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:chooser];
-    //[[self navigationController] presentModalViewController:navController animated:YES];
-    //[self presentModalViewController:navigationController animated:YES completion:nil];
+    
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc]
+                                   initWithTitle:@"Abbrechen"
+                                   style:UIBarButtonItemStylePlain
+                                   target:self
+                                   action:@selector(cancel:)];
+    chooser.navigationItem.leftBarButtonItem = cancelButton;
+    
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc]
+                                     initWithTitle:@"Fertig"
+                                     style:UIBarButtonItemStyleDone
+                                     target:self
+                                     action:@selector(done:)];
+    chooser.navigationItem.rightBarButtonItem = doneButton;
+    
     [[self navigationController] presentViewController:navController animated:YES completion:nil];
+}
+
+-(IBAction)cancel:(id)sender{
+    NSLog(@"cancel");
+}
+
+-(IBAction)done:(id)sender{
+    NSLog(@"done");
+    // teste, ob ein Kalender gewählt wurde
+    if (!self.selectedCalendar) {
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Kein Kalender gewählt"
+                                                          message:@"Bitte wähle einen Kalender"
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        [message show];
+        return;
+    }
+    // ein Kalender ist gewählt, wir können den Termin einfügen, und den EKCalendarChooser schließen
+    //--------------------------
+    // initialisiere EventStore
+    EKEventStore *eventStore = [[EKEventStore alloc] init];
+    // initialisiere event
+    EKEvent *event  = [EKEvent eventWithEventStore:eventStore];
+    // setze den Kalender für diese Event
+    [event setCalendar:self.selectedCalendar];
+    // setze Beginn und Ende
+    event.startDate = self.datePicker.date;
+    event.endDate = [NSDate dateWithTimeInterval:60*60 sinceDate:self.datePicker.date];
+    // setze Titel und Beschreibung
+    event.title = self.titelTextField.text;
+    [event setNotes:@"Lore ipsum..."];
+    // setze Alarm
+    [event addAlarm:[EKAlarm alarmWithRelativeOffset:60 * -60.0 * 24]];
+    [event addAlarm:[EKAlarm alarmWithRelativeOffset:60 * -15.0]];
+    // setze Wiederholung
+    EKRecurrenceEnd *end = [EKRecurrenceEnd recurrenceEndWithEndDate:[NSDate dateWithTimeInterval:60*60*24*365 sinceDate:self.datePicker.date]];
+    EKRecurrenceRule *rule = [[EKRecurrenceRule alloc] initRecurrenceWithFrequency:EKRecurrenceFrequencyWeekly interval:2 end:end];
+    [event addRecurrenceRule:rule];
+    NSLog(@"event: %@", event);
+    // TODO implementiere error handling
+    NSError *error;
+    [eventStore saveEvent:event span:EKSpanFutureEvents error:&error];
+    NSLog(@"error: %@", error);
+    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Fehler"
+                                                      message:error.localizedDescription
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+    [message show];
+    // EKCalendarChooser schließen
+    [[self navigationController] dismissViewControllerAnimated:YES completion:nil];
+    self.selectedCalendar = nil;
 }
 @end
