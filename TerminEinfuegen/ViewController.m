@@ -121,6 +121,7 @@
     // des Benutzers durcheinander
     [self.createEventButton setEnabled:YES];
     [self.createEventAndChooseCalButton setEnabled:YES];
+    [self.createEventWithiOSUIButton setEnabled:YES];
     
 }
 
@@ -213,18 +214,10 @@
     }
     return nil;
 }
-
--(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([[segue identifier] isEqualToString:@"show_chooser"]) {
-        EKCalendarChooser *chooser = (EKCalendarChooser *)[segue destinationViewController];
-        chooser.delegate = self;
-    }
-}
-
 #pragma mark - EKCalendarChooserDelegate
 - (void)calendarChooserSelectionDidChange:(EKCalendarChooser *)calendarChooser{
     NSLog(@"calendarChooserSelectionDidChange: %@", calendarChooser.selectedCalendars);
-    // store calendar for later use
+    // Calendar wurde gewählt, speichere für später
     NSArray *calendars = [calendarChooser.selectedCalendars allObjects];
     self.selectedCalendar = [calendars firstObject];
 }
@@ -238,6 +231,7 @@
 }
 
 - (IBAction)chooseCalendar:(id)sender {
+    // this präsentiert den EKCalendarChooser modal, so dass der Benutzer einen schreibbaren Kalender wählen kann
     EKEventStore *store = [[EKEventStore alloc] init];
     EKCalendarChooser *chooser = [[EKCalendarChooser alloc] initWithSelectionStyle:EKCalendarChooserSelectionStyleSingle displayStyle:EKCalendarChooserDisplayWritableCalendarsOnly entityType:EKEntityTypeEvent eventStore:store];
     chooser.delegate = self;
@@ -317,5 +311,29 @@
     // EKCalendarChooser schließen
     [[self navigationController] dismissViewControllerAnimated:YES completion:nil];
     self.selectedCalendar = nil;
+}
+
+- (IBAction)createEventWithiOSUI:(id)sender {
+    // Das ist die einfachste Möglichkeit, mittels EKEventEditViewController, und deren Delegates
+    EKEventStore *eventStore = [[EKEventStore alloc] init];
+    EKEvent *event  = [EKEvent eventWithEventStore:eventStore];
+    
+    
+    EKEventEditViewController *addController = [[EKEventEditViewController alloc] initWithNibName:nil bundle:nil];
+    
+    
+    // set the addController's event store to the current event store.
+    addController.eventStore = eventStore;
+    addController.event=event;
+    
+    // present EventsAddViewController as a modal view controller
+    [self presentModalViewController:addController animated:YES];
+    
+    addController.editViewDelegate = self;
+}
+
+#pragma mark - EKEventEditViewDelegate
+- (void)eventEditViewController:(EKEventEditViewController *)controller didCompleteWithAction:(EKEventEditViewAction)action{
+    
 }
 @end

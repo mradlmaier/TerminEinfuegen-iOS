@@ -29,8 +29,8 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fEZ-si-77D">
-                                <rect key="frame" x="68" y="272" width="184" height="30"/>
-                                <state key="normal" title="Event in Kalender einfügen">
+                                <rect key="frame" x="68" y="272" width="190" height="30"/>
+                                <state key="normal" title="Termin in Kalender einfügen">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -38,12 +38,21 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5K2-YD-O9A">
-                                <rect key="frame" x="11" y="310" width="299" height="30"/>
-                                <state key="normal" title="Event in selbstgewählten Kalender einfügen">
+                                <rect key="frame" x="11" y="310" width="306" height="30"/>
+                                <state key="normal" title="Termin in selbstgewählten Kalender einfügen">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="chooseCalendar:" destination="BYZ-38-t0r" eventType="touchUpInside" id="k1a-r1-0I6"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VaZ-8a-96O">
+                                <rect key="frame" x="57" y="398" width="207" height="30"/>
+                                <state key="normal" title="Termin einfügen mittels iOS UI">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="createEventWithiOSUI:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ulu-k3-ee3"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -53,6 +62,7 @@
                     <connections>
                         <outlet property="createEventAndChooseCalButton" destination="5K2-YD-O9A" id="WF4-Uc-jhm"/>
                         <outlet property="createEventButton" destination="fEZ-si-77D" id="KEf-Uo-zDV"/>
+                        <outlet property="createEventWithiOSUIButton" destination="VaZ-8a-96O" id="MfE-hy-lls"/>
                         <outlet property="datePicker" destination="ife-Bu-hKV" id="V2t-ea-2i7"/>
                         <outlet property="titelTextField" destination="cpq-RR-khN" id="FZy-8l-eYM"/>
                     </connections>
@@ -61,10 +71,10 @@
             </objects>
             <point key="canvasLocation" x="652" y="241"/>
         </scene>
-        <!--Calendar Chooser-->
+        <!--Event Edit View Controller-->
         <scene sceneID="23u-Ti-J6X">
             <objects>
-                <viewController id="rT1-JK-cWm" customClass="EKCalendarChooser" sceneMemberID="viewController">
+                <viewController id="rT1-JK-cWm" customClass="EKEventEditViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="QgE-9n-1Fi"/>
                         <viewControllerLayoutGuide type="bottom" id="Bor-at-FMn"/>

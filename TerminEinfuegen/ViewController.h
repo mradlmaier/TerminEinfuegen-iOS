@@ -10,7 +10,7 @@
 #import <EventKit/EventKit.h>
 @import EventKitUI;
 
-@interface ViewController : UIViewController <UITextFieldDelegate, EKCalendarChooserDelegate>
+@interface ViewController : UIViewController <UITextFieldDelegate, EKCalendarChooserDelegate, EKEventEditViewDelegate>
 - (IBAction)insertEvent:(id)sender;
 @property (strong, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (strong, nonatomic) IBOutlet UITextField *titelTextField;
@@ -19,5 +19,7 @@
 - (IBAction)chooseCalendar:(id)sender;
 @property (strong, nonatomic) UINavigationController *chooserNavController;
 @property (strong, nonatomic) IBOutlet UIButton *createEventAndChooseCalButton;
+@property (strong, nonatomic) IBOutlet UIButton *createEventWithiOSUIButton;
+- (IBAction)createEventWithiOSUI:(id)sender;
 @end
 
